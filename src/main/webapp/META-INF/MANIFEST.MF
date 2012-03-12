@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Specification-Title: pushstatezk
+Specification-Version: 0.0.1-SNAPSHOT
+Implementation-Title: org.zkoss.sample.pushstatezk
+Implementation-Version: 0.0.1-SNAPSHOT

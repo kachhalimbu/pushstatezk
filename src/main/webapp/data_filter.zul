@@ -1,0 +1,66 @@
+<zk xmlns:c="client">
+	<style src="Style.css" />
+	<grid id="filterGrid" apply="demo.grid.data_filter.FilterGridController">
+		<auxhead sclass="category-center">
+			<auxheader label="Healthy Food List" colspan="6" />
+		</auxhead>
+		<auxhead sclass="category-center">
+			<auxheader colspan="1">
+				<textbox id="filter1" c:onClick="this.select()" width="100px" />
+				<button id="btnFilter1" label="Filter" width="50px" c:onClick="setHistoryState()"/>
+			</auxheader>
+			<auxheader colspan="1">
+				<textbox id="filter2" c:onClick="this.select()" width="100px" />
+				<button id="btnFilter2" label="Filter" width="50px" c:onClick="setHistoryState()"/>
+			</auxheader>
+			<auxheader colspan="1">
+				<textbox id="filter3" c:onClick="this.select()" width="100px" />
+				<button id="btnFilter3" label="Filter" width="50px" c:onClick="setHistoryState()"/>
+			</auxheader>
+			<auxheader label="Detail Data of Foods" colspan="3" />
+		</auxhead>
+		<columns>
+			<column hflex="2">Category</column>
+			<column hflex="2">Name</column>
+			<column hflex="2">Top Nutrients</column>
+			<column hflex="1">% of Daily</column>
+			<column hflex="1">Calories</column>
+			<column hflex="2">Quantity</column>
+		</columns>
+		<template name="model">
+			<row>
+				<label>${each.category}</label>
+				<label>${each.name}</label>
+				<label>${each.topNutrients}</label>
+				<label>${each.dailyPercent}</label>
+				<label>${each.calories}</label>
+				<label>${each.quantity}</label>
+			</row>
+		</template>
+		<foot>
+			<footer />
+			<footer />
+			<footer id="footer_msg" />
+			<footer />
+			<footer />
+			<footer id="footer_category" class="footer_right" label="A Total of 26 Food Items" />
+		</foot>
+	</grid>
+		<script>
+		function setHistoryState(btn) {
+			var f1 = zk.Widget.$('$filter1').getValue();
+			var f2 = zk.Widget.$('$filter2').getValue();
+			var f3 = zk.Widget.$('$filter3').getValue();
+			history.pushState({ 'f1': f1, 'f2' : f2, 'f3' : f3}, "Search results", "?q=" + f1 + f2 + f3);
+		}
+		
+		$(window).bind('popstate', function(event) {
+			var prevState = event.originalEvent.state;
+			if (prevState) {
+				zAu.send(new zk.Event(zk.Widget.$('$filterGrid'), "onSearch", {'' : {'data' : prevState}}));
+			} else {
+			    // no state hence do nothing
+			}
+		});
+	</script>
+</zk>
